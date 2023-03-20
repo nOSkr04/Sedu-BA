@@ -20,7 +20,7 @@ const articlesRoutes = require("./routes/articles");
 const usersRoutes = require("./routes/users");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
-
+const walletsRoutes = require("./routes/wallets");
 // Аппын тохиргоог process.env рүү ачаалах
 dotenv.config({ path: "./config/config.env" });
 
@@ -95,7 +95,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/articles", articlesRoutes);
 app.use("/api/v1/users", usersRoutes);
-
+app.use("/api/v1/wallets", walletsRoutes);
 // Алдаа үүсэхэд барьж авч алдааны мэдээллийг клиент тал руу автоматаар мэдээлнэ
 app.use(errorHandler);
 

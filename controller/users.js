@@ -220,3 +220,81 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     user: user,
   });
 });
+
+exports.invoiceTime = asyncHandler(async (req, res, next) => {
+  const profile = await User.findById(req.params.id);
+  await axios({
+    method: "post",
+    url: "https://merchant.qpay.mn/v2/auth/token",
+    headers: {
+      Authorization: `Basic SUhFTFA6NXNEdkVRazM=`,
+    },
+  })
+    .then((response) => {
+      const token = response.data.access_token;
+
+      axios({
+        method: "post",
+        url: "https://merchant.qpay.mn/v2/invoice",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          invoice_code: "IHELP_INVOICE",
+          sender_invoice_no: "12345678",
+          invoice_receiver_code: `${profile.nickname}`,
+          invoice_description: `Sedu charge ${profile.nickname}`,
+
+          amount: req.body.amount,
+          callback_url: `https://naimaaserver.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
+        },
+      })
+        .then(async (response) => {
+          req.body.urls = response.data.urls;
+          req.body.qrImage = response.data.qr_image;
+          req.body.invoiceId = response.data.invoice_id;
+          const wallet = await Wallet.create(req.body);
+          profile.invoiceId = wallet._id;
+          profile.save();
+          res.status(200).json({
+            success: true,
+            data: wallet._id,
+          });
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+    });
+});
+
+exports.chargeTime = asyncHandler(async (req, res, next) => {
+  const profile = await User.findById(req.params.id);
+
+  if (profile.deadline < Date.now()) {
+    if (req.params.numId == 100) {
+      profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
+    } else if (req.params.numId == 150) {
+      profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
+    } else if (req.params.numId == 200) {
+      profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+    }
+  } else {
+    if (req.params.numId == 100) {
+      profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
+    } else if (req.params.numId == 150) {
+      profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
+    } else if (req.params.numId == 200) {
+      profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
+    }
+  }
+
+  profile.save();
+
+  res.status(200).json({
+    success: true,
+    data: profile,
+  });
+});

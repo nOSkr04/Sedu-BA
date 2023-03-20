@@ -13,6 +13,8 @@ const {
   resetPassword,
   logout,
   authMeUser,
+  invoiceTime,
+  chargeTime,
 } = require("../controller/users");
 
 const { getUserArticles } = require("../controller/articles");
@@ -34,6 +36,8 @@ router
   .get(authorize("admin"), getUsers)
   .post(authorize("admin"), createUser);
 router.route("/me").get(protect, authMeUser);
+router.route("/invoice/:id").post(invoiceTime);
+router.route("/callbacks/:id/:numId").get(chargeTime);
 router
   .route("/:id")
   .get(authorize("admin", "operator"), getUser)
