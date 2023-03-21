@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Wallet = require("../models/Wallet");
 const MyError = require("../utils/myError");
 const asyncHandler = require("express-async-handler");
 const paginate = require("../utils/paginate");
