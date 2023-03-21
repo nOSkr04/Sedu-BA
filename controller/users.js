@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 const paginate = require("../utils/paginate");
 const sendEmail = require("../utils/email");
 const crypto = require("crypto");
-
+const axios = require("axios");
 exports.authMeUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
   if (!user) {
