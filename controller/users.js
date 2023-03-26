@@ -243,11 +243,11 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
         data: {
           invoice_code: "IHELP_INVOICE",
           sender_invoice_no: "12345678",
-          invoice_receiver_code: `${profile.nickname}`,
-          invoice_description: `Sedu charge ${profile.nickname}`,
+          invoice_receiver_code: `${profile.username}`,
+          invoice_description: `Sedu charge ${profile.username}`,
 
           amount: req.body.amount,
-          callback_url: `https://naimaaserver.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
+          callback_url: `http://188.166.244.187/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
         },
       })
         .then(async (response) => {
