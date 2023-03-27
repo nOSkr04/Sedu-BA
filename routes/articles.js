@@ -15,7 +15,7 @@ const router = express.Router();
 //"/api/v1/articles"
 router
   .route("/")
-  .get(getArticles)
+  .get(protect, getArticles)
   .post(protect, authorize("admin", "operator"), createArticle);
 
 router
