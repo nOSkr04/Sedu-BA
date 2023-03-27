@@ -40,12 +40,10 @@ router.route("/invoice/:id").post(invoiceTime);
 router.route("/callbacks/:id/:numId").get(chargeTime);
 router
   .route("/:id")
-  .get(authorize("admin", "operator"), getUser)
+  .get(getUser)
   .put(updateUser)
   .delete(authorize("admin"), deleteUser);
 
-router
-  .route("/:id/articles")
-  .get(authorize("admin", "operator", "user"), getUserArticles);
+router.route("/:id/articles").get(getUserArticles);
 
 module.exports = router;
