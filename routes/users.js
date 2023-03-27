@@ -41,7 +41,7 @@ router.route("/callbacks/:id/:numId").get(chargeTime);
 router
   .route("/:id")
   .get(authorize("admin", "operator"), getUser)
-  .put(authorize("admin"), updateUser)
+  .put(updateUser)
   .delete(authorize("admin"), deleteUser);
 
 router
