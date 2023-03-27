@@ -273,7 +273,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
 
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params._id);
-  console.log(profile);
+  console.log(req);
   if (profile.deadline < Date.now()) {
     if (req.params.numId == 100) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
