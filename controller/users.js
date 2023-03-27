@@ -247,7 +247,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
           invoice_description: `Sedu charge ${profile.username}`,
 
           amount: req.body.amount,
-          callback_url: `http://188.166.244.187/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
+          callback_url: `http://157.245.158.22/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
         },
       })
         .then(async (response) => {
