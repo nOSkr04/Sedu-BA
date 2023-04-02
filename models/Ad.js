@@ -1,29 +1,26 @@
-import mongoose from "mongoose"
-// import { transliterate, slugify} from 'transliteration'
-const AdSchema = new mongoose.Schema({
+const mongoose = require("mongoose");
+
+const AdSchema = new mongoose.Schema(
+  {
     name: {
-        type: String
+      type: String,
     },
     description: {
-        type: String
+      type: String,
     },
     photo: {
-        type: String
+      type: String,
     },
     createUser: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User"
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
     },
     category: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Category"
+      type: mongoose.Schema.ObjectId,
+      ref: "Category",
     },
+  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+);
 
-}, {toJSON: { virtuals: true}, toObject: {virtuals: true}})
-
-
-
-
-
-
-export default mongoose.model("Ad", AdSchema)
+module.exports = mongoose.model("Ad", AdSchema);

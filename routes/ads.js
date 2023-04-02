@@ -1,8 +1,7 @@
-import express from "express";
+const express = require("express");
+const { protect } = require("../middleware/protect");
 
-import { protect, authorize } from "../middleware/protect.js";
-
-import {
+const {
   getAds,
   getAd,
   createAd,
@@ -10,7 +9,7 @@ import {
   updateAd,
   uploadAdPhoto,
   uploadAdProfile,
-} from "../controller/ads.js";
+} = require("../controller/ads");
 
 const router = express.Router();
 
@@ -27,4 +26,4 @@ router
 router.route("/:id/photo").put(uploadAdPhoto);
 router.route("/:id/profile").put(uploadAdProfile);
 
-export default router;
+module.exports = router;
