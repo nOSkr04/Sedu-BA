@@ -18,6 +18,7 @@ const hpp = require("hpp");
 const categoriesRoutes = require("./routes/categories");
 const articlesRoutes = require("./routes/articles");
 const usersRoutes = require("./routes/users");
+const adsRoutes = require("./routes/ads");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 const walletsRoutes = require("./routes/wallets");
@@ -95,6 +96,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/articles", articlesRoutes);
 app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1/ads", adsRoutes);
 app.use("/api/v1/wallets", walletsRoutes);
 // Алдаа үүсэхэд барьж авч алдааны мэдээллийг клиент тал руу автоматаар мэдээлнэ
 app.use(errorHandler);
