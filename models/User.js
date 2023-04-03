@@ -9,12 +9,6 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
   },
-  username: {
-    type: String,
-    unique: true,
-    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
-    trim: true,
-  },
   email: {
     type: String,
   },
