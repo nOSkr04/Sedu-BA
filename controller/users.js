@@ -116,11 +116,9 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
 exports.createUser = asyncHandler(async (req, res, next) => {
   const user = await User.create(req.body);
-  const token = user.getJsonWebToken();
   res.status(200).json({
     success: true,
     data: user,
-    token,
   });
 });
 

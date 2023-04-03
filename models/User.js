@@ -9,8 +9,8 @@ const UserSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
     unique: true,
+    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
     trim: true,
   },
   email: {
