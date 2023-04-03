@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
+    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
   },
   username: {
     type: String,

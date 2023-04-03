@@ -9,8 +9,6 @@ const {
   createUser,
   updateUser,
   deleteUser,
-  forgotPassword,
-  resetPassword,
   logout,
   authMeUser,
   invoiceTime,
@@ -25,8 +23,7 @@ const router = express.Router();
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
-router.route("/forgot-password").post(forgotPassword);
-router.route("/reset-password").post(resetPassword);
+
 router.route("/callbacks/:id/:numId").get(chargeTime);
 
 router.use(protect);

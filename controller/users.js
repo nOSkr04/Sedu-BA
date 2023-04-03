@@ -3,9 +3,8 @@ const Wallet = require("../models/Wallet");
 const MyError = require("../utils/myError");
 const asyncHandler = require("express-async-handler");
 const paginate = require("../utils/paginate");
-const sendEmail = require("../utils/email");
-const crypto = require("crypto");
 const axios = require("axios");
+
 exports.authMeUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
   if (!user) {
@@ -32,16 +31,16 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 // логин хийнэ
 exports.login = asyncHandler(async (req, res, next) => {
-  const { username, password } = req.body;
+  const { name, password } = req.body;
 
   // Оролтыгоо шалгана
 
-  if (!username || !password) {
+  if (!name || !password) {
     throw new MyError("Имэл болон нууц үйгээ дамжуулна уу", 400);
   }
 
   // Тухайн хэрэглэгчийн хайна
-  const user = await User.findOne({ username }).select("+password");
+  const user = await User.findOne({ name }).select("+password");
 
   if (!user) {
     throw new MyError("Имэйл болон нууц үгээ зөв оруулна уу", 401);
@@ -153,74 +152,6 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.forgotPassword = asyncHandler(async (req, res, next) => {
-  if (!req.body.email) {
-    throw new MyError("Та нууц үг сэргээх имэйл хаягаа дамжуулна уу", 400);
-  }
-
-  const user = await User.findOne({ username: req.body.email });
-
-  if (!user) {
-    throw new MyError(req.body.email + " имэйлтэй хэрэглэгч олдсонгүй!", 400);
-  }
-
-  const resetToken = user.generatePasswordChangeToken();
-  await user.save();
-
-  // await user.save({ validateBeforeSave: false });
-
-  // Имэйл илгээнэ
-  const link = `https://amazon.mn/changepassword/${resetToken}`;
-
-  const message = `Сайн байна уу<br><br>Та нууц үгээ солих хүсэлт илгээлээ.<br> Нууц үгээ доорхи линк дээр дарж солино уу:<br><br><a target="_blank" href="${link}">${link}</a><br><br>Өдрийг сайхан өнгөрүүлээрэй!`;
-
-  const info = await sendEmail({
-    email: user.email,
-    subject: "Нууц үг өөрчлөх хүсэлт",
-    message,
-  });
-
-  console.log("Message sent: %s", info.messageId);
-
-  res.status(200).json({
-    success: true,
-    resetToken,
-  });
-});
-
-exports.resetPassword = asyncHandler(async (req, res, next) => {
-  if (!req.body.resetToken || !req.body.password) {
-    throw new MyError("Та токен болон нууц үгээ дамжуулна уу", 400);
-  }
-
-  const encrypted = crypto
-    .createHash("sha256")
-    .update(req.body.resetToken)
-    .digest("hex");
-
-  const user = await User.findOne({
-    resetPasswordToken: encrypted,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
-
-  if (!user) {
-    throw new MyError("Токен хүчингүй байна!", 400);
-  }
-
-  user.password = req.body.password;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpire = undefined;
-  await user.save();
-
-  const token = user.getJsonWebToken();
-
-  res.status(200).json({
-    success: true,
-    token,
-    user: user,
-  });
-});
-
 exports.invoiceTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   await axios({
@@ -242,8 +173,8 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
         data: {
           invoice_code: "IHELP_INVOICE",
           sender_invoice_no: "12345678",
-          invoice_receiver_code: `${profile.username}`,
-          invoice_description: `Sedu charge ${profile.username}`,
+          invoice_receiver_code: `${profile.name}`,
+          invoice_description: `Sedu charge ${profile.name}`,
 
           amount: req.body.amount,
           callback_url: `http://143.198.90.131/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
