@@ -158,7 +158,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
     method: "post",
     url: "https://merchant.qpay.mn/v2/auth/token",
     headers: {
-      Authorization: `Basic SUhFTFA6NXNEdkVRazM=`,
+      Authorization: `Basic U0VEVTowYjRrNDJsRA==`,
     },
   })
     .then((response) => {
