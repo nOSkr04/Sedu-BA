@@ -171,7 +171,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
           Authorization: `Bearer ${token}`,
         },
         data: {
-          invoice_code: "IHELP_INVOICE",
+          invoice_code: "SEDU_INVOICE",
           sender_invoice_no: "12345678",
           invoice_receiver_code: `${profile.name}`,
           invoice_description: `Sedu charge ${profile.name}`,
