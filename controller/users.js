@@ -205,19 +205,19 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   if (profile.deadline < Date.now()) {
-    if (req.params.numId == 100) {
+    if (req.params.numId == 10000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
-    } else if (req.params.numId == 150) {
+    } else if (req.params.numId == 15000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId == 200) {
+    } else if (req.params.numId == 20000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
     }
   } else {
-    if (req.params.numId == 100) {
+    if (req.params.numId == 10000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
-    } else if (req.params.numId == 150) {
+    } else if (req.params.numId == 15000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId == 200) {
+    } else if (req.params.numId == 20000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
     }
   }
