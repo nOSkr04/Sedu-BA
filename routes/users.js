@@ -35,11 +35,7 @@ router
   .post(authorize("admin"), createUser);
 router.route("/me").get(protect, authMeUser);
 router.route("/invoice/:id").post(invoiceTime);
-router
-  .route("/:id")
-  .get(getUser)
-  .put(updateUser)
-  .delete(authorize("admin"), deleteUser);
+router.route("/:id").get(getUser).put(updateUser).delete(protect, deleteUser);
 
 router.route("/:id/articles").get(getUserArticles);
 
