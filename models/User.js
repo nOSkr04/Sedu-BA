@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
   },
   deadline: {
     type: Date,
-    default: Date.now,
+    default: Date.now() + 60 * 60 * 1000 * 24 * 30,
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
