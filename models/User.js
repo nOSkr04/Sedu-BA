@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now() + 60 * 60 * 1000 * 24 * 30,
   },
+  privacy: {
+    type: Boolean,
+    default: true,
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {
