@@ -28,11 +28,11 @@ const UserSchema = new mongoose.Schema({
   },
   deadline: {
     type: Date,
-    default: Date.now() + 60 * 60 * 1000 * 24 * 30,
+    default: Date.now(),
   },
   privacy: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
