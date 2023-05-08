@@ -177,7 +177,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
           invoice_description: `Sedu charge ${profile.name}`,
 
           amount: req.body.amount,
-          callback_url: `http://143.198.90.131/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
+          callback_url: `https://seduserver.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
         },
       })
         .then(async (response) => {
@@ -205,19 +205,19 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   if (profile.deadline < Date.now()) {
-    if (req.params.numId == 10000) {
+    if (req.params.numId === 100) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
-    } else if (req.params.numId == 15000) {
+    } else if (req.params.numId === 150) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId == 20000) {
+    } else if (req.params.numId === 200) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
     }
   } else {
-    if (req.params.numId == 10000) {
+    if (req.params.numId === 100) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
-    } else if (req.params.numId == 15000) {
+    } else if (req.params.numId === 150) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId == 20000) {
+    } else if (req.params.numId === 200) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
     }
   }
