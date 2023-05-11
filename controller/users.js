@@ -203,6 +203,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
 });
 
 exports.invoiceCheck = asyncHandler(async (req, res) => {
+  console.log(req.params);
   await axios({
     method: "post",
     url: "https://merchant.qpay.mn/v2/auth/token",
@@ -228,39 +229,39 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
       })
         .then(async (response) => {
           console.log(response.data, "res-data");
-          const counts = response.data.count;
-          const profile = await User.findById(req.params.id);
-          if (counts === 0) {
-            res.status(401).json({
-              success: false,
-            });
-          } else {
-            if (profile.deadline < Date.now()) {
-              if (req.params.numId === 100) {
-                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
-              } else if (req.params.numId === 150) {
-                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
-              } else if (req.params.numId === 200) {
-                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
-              }
-            } else {
-              if (req.params.numId === 100) {
-                profile.deadline =
-                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
-              } else if (req.params.numId === 150) {
-                profile.deadline =
-                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
-              } else if (req.params.numId === 200) {
-                profile.deadline =
-                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
-              }
-            }
-            profile.save();
-            res.status(200).json({
-              success: true,
-              data: profile,
-            });
-          }
+          // const counts = response.data.count;
+          // const profile = await User.findById(req.params.id);
+          // if (counts === 0) {
+          //   res.status(401).json({
+          //     success: false,
+          //   });
+          // } else {
+          //   if (profile.deadline < Date.now()) {
+          //     if (req.params.numId === 100) {
+          //       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
+          //     } else if (req.params.numId === 150) {
+          //       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
+          //     } else if (req.params.numId === 200) {
+          //       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+          //     }
+          //   } else {
+          //     if (req.params.numId === 100) {
+          //       profile.deadline =
+          //         profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
+          //     } else if (req.params.numId === 150) {
+          //       profile.deadline =
+          //         profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
+          //     } else if (req.params.numId === 200) {
+          //       profile.deadline =
+          //         profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
+          //     }
+          //   }
+          //   profile.save();
+          //   res.status(200).json({
+          //     success: true,
+          //     data: profile,
+          //   });
+          // }
         })
         .catch((error) => {
           console.log(error, "error");
