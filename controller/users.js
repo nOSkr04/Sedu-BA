@@ -213,7 +213,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
   })
     .then((response) => {
       const token = response.data.access_token;
-      console.log(response, "deed response");
+      console.log(response.data.access_token, "deed response");
       axios({
         method: "post",
         url: "https://merchant.qpay.mn/v2/payment/check",
@@ -265,7 +265,8 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           // }
         })
         .catch((error) => {
-          console.log(error, "error");
+          // console.log(error, "error");
+          console.log("err==================");
         });
     })
     .catch((error) => {
