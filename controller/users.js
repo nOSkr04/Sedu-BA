@@ -228,14 +228,14 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
       })
         .then(async (response) => {
           console.log(response, "newData");
-          const profile = await User.findById(req.params.numId);
-          profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
-          profile.save();
+          // const profile = await User.findById(req.params.numId);
+          // profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+          // profile.save();
 
-          res.status(200).json({
-            success: true,
-            data: profile,
-          });
+          // res.status(200).json({
+          //   success: true,
+          //   data: profile,
+          // });
         })
         .catch((error) => {
           // console.log(error, "error");
