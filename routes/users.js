@@ -13,6 +13,7 @@ const {
   authMeUser,
   invoiceTime,
   chargeTime,
+  invoiceCheck,
 } = require("../controller/users");
 
 const { getUserArticles } = require("../controller/articles");
@@ -25,7 +26,7 @@ router.route("/login").post(login);
 router.route("/logout").get(logout);
 
 router.route("/callbacks/:id/:numId").get(chargeTime);
-
+router.route("/check/challbacks/:id/:numId").get(invoiceCheck);
 router.use(protect);
 
 //"/api/v1/users"

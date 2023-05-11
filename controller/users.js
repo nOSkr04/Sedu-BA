@@ -202,6 +202,55 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
     });
 });
 
+exports.invoiceCheck = asyncHandler(async (req, res) => {
+  await axios({
+    method: "post",
+    url: "https://merchant.qpay.mn/v2/auth/token",
+    headers: {
+      Authorization: `Basic U0VEVTowYjRrNDJsRA==`,
+    },
+  })
+    .then((response) => {
+      const token = response.data.access_token;
+      axios({
+        method: "post",
+        url: "https://merchant.qpay.mn/v2/payment/check",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          object_type: "SEDU_INVOICE",
+          object_id: req.params.id,
+          page_number: 1,
+          page_limit: 100,
+          callback_url: `https://seduserver.com/api/v1/products/check/challbacks/${req.params.id}/${req.params.numId}`,
+        },
+      })
+        .then(async (response) => {
+          const counts = response.data.count;
+          const profile = await User.findById(req.params.id);
+          if (counts === 0) {
+            res.status(401).json({
+              success: false,
+            });
+          } else {
+            profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+          }
+          profile.save();
+          res.status(200).json({
+            success: true,
+            data: profile,
+          });
+        })
+        .catch((error) => {
+          console.log(error, "error");
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   if (profile.deadline < Date.now()) {
