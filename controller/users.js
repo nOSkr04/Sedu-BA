@@ -227,10 +227,9 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
         },
       })
         .then(async (response) => {
+          console.log(response, "newData");
           const profile = await User.findById(req.params.numId);
-          if (response) {
-            profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
-          }
+          profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
           profile.save();
 
           res.status(200).json({
