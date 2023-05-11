@@ -265,7 +265,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           // }
         })
         .catch((error) => {
-          console.log(error.data, "error");
+          console.log(error, "error");
         });
     })
     .catch((error) => {
