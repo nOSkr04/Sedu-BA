@@ -255,7 +255,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   console.log(req.params.id, "aaa");
   console.log(req.params.numId);
-  console.log(req.params.numId === 200 ? "a" : "b");
+  console.log(req.params.numId === "200" ? "a" : "b");
   const profile = await User.findById(req.params.id);
   console.log(profile.deadline, "profile");
   if (profile.deadline < Date.now()) {
