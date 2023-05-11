@@ -221,7 +221,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           Authorization: `Bearer ${token}`,
         },
         data: {
-          object_type: "SEDU_INVOICE",
+          object_type: "INVOICE",
           object_id: req.params.id,
           page_number: 1,
           page_limit: 100,
