@@ -34,7 +34,11 @@ const app = express();
 connectDB();
 
 // Манай рест апиг дуудах эрхтэй сайтуудын жагсаалт :
-var whitelist = ["http://localhost:3000"];
+var whitelist = [
+  "http://localhost:3000",
+  "https://www.sedu.mn",
+  "https://sedu.mn",
+];
 
 // Өөр домэйн дээр байрлах клиент вэб аппуудаас шаардах шаардлагуудыг энд тодорхойлно
 var corsOptions = {
