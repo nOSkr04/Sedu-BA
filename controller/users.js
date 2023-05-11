@@ -264,11 +264,11 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           // }
         })
         .catch((error) => {
-          console.log(error, "error");
+          console.log(error.data, "error");
         });
     })
     .catch((error) => {
-      console.log(error.data);
+      console.log(error);
     });
 });
 
