@@ -223,7 +223,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           object_id: req.params.id,
           page_number: 1,
           page_limit: 100,
-          callback_url: `https://seduserver.com/api/v1/products/check/challbacks/${req.params.id}/${req.params.numId}`,
+          callback_url: `https://seduserver.com/api/v1/users/check/challbacks/${req.params.id}/${req.params.numId}`,
         },
       })
         .then(async (response) => {
