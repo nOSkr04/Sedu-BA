@@ -259,7 +259,7 @@ exports.chargeTime = asyncHandler(async (req, res, next) => {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
     } else if (req.params.numId === 15000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId === 200) {
+    } else if (req.params.numId === 20000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
     }
   } else {
@@ -267,7 +267,7 @@ exports.chargeTime = asyncHandler(async (req, res, next) => {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
     } else if (req.params.numId === 15000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId === 200) {
+    } else if (req.params.numId === 20000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
     }
   }
