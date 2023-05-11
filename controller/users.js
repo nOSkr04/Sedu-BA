@@ -234,13 +234,32 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
               success: false,
             });
           } else {
-            profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+            if (profile.deadline < Date.now()) {
+              if (req.params.numId === 100) {
+                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
+              } else if (req.params.numId === 150) {
+                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
+              } else if (req.params.numId === 200) {
+                profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+              }
+            } else {
+              if (req.params.numId === 100) {
+                profile.deadline =
+                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
+              } else if (req.params.numId === 150) {
+                profile.deadline =
+                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
+              } else if (req.params.numId === 200) {
+                profile.deadline =
+                  profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
+              }
+            }
+            profile.save();
+            res.status(200).json({
+              success: true,
+              data: profile,
+            });
           }
-          profile.save();
-          res.status(200).json({
-            success: true,
-            data: profile,
-          });
         })
         .catch((error) => {
           console.log(error, "error");
