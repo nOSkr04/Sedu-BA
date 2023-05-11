@@ -254,15 +254,17 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
 
 exports.chargeTime = asyncHandler(async (req, res, next) => {
   console.log(req.params.id, "aaa");
-  const profile = await User.findById(req.params.id);
-  console.log(profile, "profile");
+  console.log(profile.deadline, "profile");
   console.log(req.params.numId);
+  console.log(req.params.numId === 200 ? "a" : "b");
+  const profile = await User.findById(req.params.id);
   if (profile.deadline < Date.now()) {
     if (req.params.numId === 10000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
     } else if (req.params.numId === 15000) {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId === 20000) {
+    } else if (req.params.numId === 200) {
+      console.log("first");
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
     }
   } else {
@@ -270,7 +272,8 @@ exports.chargeTime = asyncHandler(async (req, res, next) => {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
     } else if (req.params.numId === 15000) {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
-    } else if (req.params.numId === 20000) {
+    } else if (req.params.numId === 200) {
+      console.log("second");
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
     }
   }
