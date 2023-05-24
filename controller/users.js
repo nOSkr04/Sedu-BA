@@ -177,7 +177,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
           invoice_description: `Sedu charge ${profile.name}`,
 
           amount: req.body.amount,
-          callback_url: `https://seduserver.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
+          callback_url: `https://seduback.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
         },
       })
         .then(async (response) => {
@@ -223,7 +223,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
           object_id: req.params.id,
           page_number: 1,
           page_limit: 100,
-          callback_url: `https://seduserver.com/api/v1/users/check/challbacks/${req.params.id}/${req.params.numId}`,
+          callback_url: `https://seduback.com/api/v1/users/check/challbacks/${req.params.id}/${req.params.numId}`,
         },
       })
         .then(async (response) => {
