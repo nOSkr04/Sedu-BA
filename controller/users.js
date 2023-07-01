@@ -1,11 +1,11 @@
-const User = require("../models/User");
-const Wallet = require("../models/Wallet");
-const MyError = require("../utils/myError");
-const asyncHandler = require("express-async-handler");
-const paginate = require("../utils/paginate");
-const axios = require("axios");
+import User from "../models/User.js";
+import Wallet from "../models/Wallet.js";
+import MyError from "../utils/myError.js";
+import asyncHandler from "express-async-handler";
+import paginate from "../utils/paginate.js";
+import axios from "axios";
 
-exports.authMeUser = asyncHandler(async (req, res) => {
+export const authMeUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
   if (!user) {
     throw new MyError(req.params.id, 401);
@@ -17,7 +17,7 @@ exports.authMeUser = asyncHandler(async (req, res) => {
 });
 
 // register
-exports.register = asyncHandler(async (req, res, next) => {
+export const register = asyncHandler(async (req, res, next) => {
   const user = await User.create(req.body);
 
   const token = user.getJsonWebToken();
@@ -30,7 +30,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // логин хийнэ
-exports.login = asyncHandler(async (req, res, next) => {
+export const login = asyncHandler(async (req, res, next) => {
   const { name, password } = req.body;
 
   // Оролтыгоо шалгана
@@ -66,7 +66,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.logout = asyncHandler(async (req, res, next) => {
+export const logout = asyncHandler(async (req, res, next) => {
   const cookieOption = {
     expires: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
     httpOnly: true,
@@ -78,7 +78,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getUsers = asyncHandler(async (req, res, next) => {
+export const getUsers = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const sort = req.query.sort;
@@ -100,7 +100,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getUser = asyncHandler(async (req, res, next) => {
+export const getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
@@ -113,7 +113,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createUser = asyncHandler(async (req, res, next) => {
+export const createUser = asyncHandler(async (req, res, next) => {
   const user = await User.create(req.body);
   res.status(200).json({
     success: true,
@@ -121,7 +121,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.updateUser = asyncHandler(async (req, res, next) => {
+export const updateUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -137,7 +137,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.deleteUser = asyncHandler(async (req, res, next) => {
+export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
@@ -152,7 +152,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.invoiceTime = asyncHandler(async (req, res, next) => {
+export const invoiceTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   await axios({
     method: "post",
@@ -202,7 +202,7 @@ exports.invoiceTime = asyncHandler(async (req, res, next) => {
     });
 });
 
-exports.invoiceCheck = asyncHandler(async (req, res) => {
+export const invoiceCheck = asyncHandler(async (req, res) => {
   await axios({
     method: "post",
     url: "https://merchant.qpay.mn/v2/auth/token",
@@ -252,7 +252,7 @@ exports.invoiceCheck = asyncHandler(async (req, res) => {
     });
 });
 
-exports.chargeTime = asyncHandler(async (req, res, next) => {
+export const chargeTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.params.id);
   if (profile.deadline < Date.now()) {
     if (req.params.numId === "150") {

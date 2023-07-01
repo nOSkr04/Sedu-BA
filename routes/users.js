@@ -1,7 +1,7 @@
-const express = require("express");
-const { protect, authorize } = require("../middleware/protect");
+import { Router } from "express";
+import { protect, authorize } from "../middleware/protect.js";
 
-const {
+import {
   register,
   login,
   getUsers,
@@ -14,11 +14,11 @@ const {
   invoiceTime,
   chargeTime,
   invoiceCheck,
-} = require("../controller/users");
+} from "../controller/users.js";
 
-const { getUserArticles } = require("../controller/articles");
+import { getUserArticles } from "../controller/articles.js";
 
-const router = express.Router();
+const router = Router();
 
 //"/api/v1/users"
 router.route("/register").post(register);
@@ -40,4 +40,4 @@ router.route("/:id").get(getUser).put(updateUser).delete(protect, deleteUser);
 
 router.route("/:id/articles").get(getUserArticles);
 
-module.exports = router;
+export default router;

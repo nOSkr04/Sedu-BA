@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { transliterate, slugify } = require("transliteration");
+import mongoose from "mongoose";
 
 const CategorySchema = new mongoose.Schema(
   {
@@ -40,25 +39,4 @@ const CategorySchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-CategorySchema.virtual("books", {
-  ref: "Book",
-  localField: "_id",
-  foreignField: "category",
-  justOne: false,
-});
-
-CategorySchema.pre("remove", async function (next) {
-  console.log("removing ....");
-  await this.model("Book").deleteMany({ category: this._id });
-  next();
-});
-
-CategorySchema.pre("save", function (next) {
-  // name хөрвүүлэх
-  this.slug = slugify(this.name);
-  this.averageRating = Math.floor(Math.random() * 10) + 1;
-  // this.averagePrice = Math.floor(Math.random() * 100000) + 3000;
-  next();
-});
-
-module.exports = mongoose.model("Category", CategorySchema);
+export default mongoose.model("Category", CategorySchema);

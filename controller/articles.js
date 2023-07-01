@@ -1,15 +1,15 @@
-const Article = require("../models/Article");
-const path = require("path");
-const Category = require("../models/Category");
-const MyError = require("../utils/myError");
-const asyncHandler = require("express-async-handler");
-const paginate = require("../utils/paginate");
-const User = require("../models/User");
+import Article from "../models/Article.js";
+import path from "path";
+import Category from "../models/Category.js";
+import MyError from "../utils/myError.js";
+import asyncHandler from "express-async-handler";
+import paginate from "../utils/paginate.js";
+import User from "../models/User.js";
 
 // api/v1/articles
-exports.getArticles = asyncHandler(async (req, res, next) => {
+export const getArticles = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 100;
+  const limit = parseInt(req.query.limit) || 10;
   const sort = req.query.sort;
   const select = req.query.select;
 
@@ -29,40 +29,13 @@ exports.getArticles = asyncHandler(async (req, res, next) => {
   });
 });
 
-// exports.getArticles = asyncHandler(async (req, res, next) => {
-//   const page = parseInt(req.query.page) || 1;
-//   const limit = parseInt(req.query.limit) || 5;
-//   // const sort = req.query.sort;
-//   // const select = req.query.select;
-//   const { select, sort } = req.query;
-
-//   const filter = {};
-//   // if (select) filter.select = select;
-
-//   console.log(filter);
-
-//   const pagination = await paginate(page, limit, Article);
-//   const articles = await Article.find()
-//     .select(select)
-//     .sort(sort)
-//     .skip(pagination.start - 1)
-//     .limit(limit);
-
-//   res.status(200).json({
-//     success: true,
-//     count: articles.length,
-//     data: articles,
-//     pagination,
-//   });
-// });
-
-exports.getUserArticles = asyncHandler(async (req, res, next) => {
+export const getUserArticles = asyncHandler(async (req, res, next) => {
   req.query.createUser = req.userId;
   return this.getArticles(req, res, next);
 });
 
 // api/v1/categories/:catId/articles
-exports.getCategoryArticles = asyncHandler(async (req, res, next) => {
+export const getCategoryArticles = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 2;
   const sort = req.query.sort;
@@ -89,7 +62,7 @@ exports.getCategoryArticles = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getArticle = asyncHandler(async (req, res, next) => {
+export const getArticle = asyncHandler(async (req, res, next) => {
   const article = await Article.findById(req.params.id);
 
   if (!article) {
@@ -102,7 +75,7 @@ exports.getArticle = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createCategory = asyncHandler(async (req, res, next) => {
+export const createCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.create(req.body);
 
   res.status(200).json({
@@ -111,7 +84,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createArticle = asyncHandler(async (req, res, next) => {
+export const createArticle = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.body.category);
 
   if (!category) {
@@ -128,7 +101,7 @@ exports.createArticle = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.deleteArticle = asyncHandler(async (req, res, next) => {
+export const deleteArticle = asyncHandler(async (req, res, next) => {
   const article = await Article.findById(req.params.id);
 
   if (!article) {
@@ -153,7 +126,7 @@ exports.deleteArticle = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.updateArticle = asyncHandler(async (req, res, next) => {
+export const updateArticle = asyncHandler(async (req, res, next) => {
   const article = await Article.findById(req.params.id);
 
   if (!article) {
@@ -182,7 +155,7 @@ exports.updateArticle = asyncHandler(async (req, res, next) => {
 });
 
 // PUT:  api/v1/articles/:id/photo
-exports.uploadArticlePhoto = asyncHandler(async (req, res, next) => {
+export const uploadArticlePhoto = asyncHandler(async (req, res, next) => {
   const article = await Article.findById(req.params.id);
 
   if (!article) {

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ArticleSchema = new mongoose.Schema(
   {
@@ -38,4 +38,4 @@ const ArticleSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-module.exports = mongoose.model("Article", ArticleSchema);
+export default mongoose.model("Article", ArticleSchema);

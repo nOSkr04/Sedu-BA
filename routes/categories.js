@@ -1,17 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const { protect, authorize } = require("../middleware/protect");
+import { Router } from "express";
+const router = Router();
+import { protect, authorize } from "../middleware/protect.js";
 
-const {
+import {
   getCategories,
   getCategory,
   createCategory,
   updateCategory,
   deleteCategory,
-} = require("../controller/categories");
+} from "../controller/categories.js";
 
 // api/v1/categories/:id/articles
-const { getCategoryArticles } = require("../controller/articles");
+import { getCategoryArticles } from "../controller/articles.js";
 router.route("/:categoryId/articles").get(getCategoryArticles);
 
 //"/api/v1/categories"
@@ -26,4 +26,4 @@ router
   .put(protect, authorize("admin", "operator"), updateCategory)
   .delete(protect, authorize("admin"), deleteCategory);
 
-module.exports = router;
+export default router;

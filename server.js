@@ -1,27 +1,26 @@
-const express = require("express");
-const dotenv = require("dotenv");
-var path = require("path");
-var colors = require("colors");
-var rfs = require("rotating-file-stream");
-var morgan = require("morgan");
-const logger = require("./middleware/logger");
-const fileupload = require("express-fileupload");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
-const xss = require("xss-clean");
-const rateLimit = require("express-rate-limit");
-const hpp = require("hpp");
+import express from "express";
+import dotenv from "dotenv";
+import path from "path";
+import colors from "colors";
+import rfs from "rotating-file-stream";
+import morgan from "morgan";
+import logger from "./middleware/logger.js";
+import fileupload from "express-fileupload";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import mongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import hpp from "hpp";
 
 // Router оруулж ирэх
-const categoriesRoutes = require("./routes/categories");
-const articlesRoutes = require("./routes/articles");
-const usersRoutes = require("./routes/users");
-const adsRoutes = require("./routes/ads");
-const errorHandler = require("./middleware/error");
-const connectDB = require("./config/db");
-const walletsRoutes = require("./routes/wallets");
+import categoriesRoutes from "./routes/categories.js";
+import articlesRoutes from "./routes/articles.js";
+import usersRoutes from "./routes/users.js";
+import adsRoutes from "./routes/ads.js";
+import errorHandler from "./middleware/error.js";
+import connectDB from "./config/db.js";
+import walletsRoutes from "./routes/wallets.js";
 // Аппын тохиргоог process.env рүү ачаалах
 dotenv.config({ path: "./config/config.env" });
 
@@ -62,7 +61,7 @@ var corsOptions = {
 };
 
 // index.html-ийг public хавтас дотроос ол гэсэн тохиргоо
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(new URL("public", import.meta.url).pathname));
 
 // Express rate limit : Дуудалтын тоог хязгаарлана
 const limiter = rateLimit({
@@ -93,7 +92,7 @@ app.use(fileupload());
 // Morgan logger-ийн тохиргоо
 var accessLogStream = rfs.createStream("access.log", {
   interval: "1d", // rotate daily
-  path: path.join(__dirname, "log"),
+  path: new URL("log", import.meta.url).pathname,
 });
 app.use(morgan("combined", { stream: accessLogStream }));
 

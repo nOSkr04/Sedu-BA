@@ -1,11 +1,11 @@
-const Ad = require("../models/Ad.js");
-const path = require("path");
-const MyError = require("../utils/myError");
-const asyncHandler = require("express-async-handler");
-const paginate = require("../utils/paginate");
-const User = require("../models/User");
+import Ad from "../models/Ad.js";
+import path from "path";
+import MyError from "../utils/myError.js";
+import asyncHandler from "express-async-handler";
+import paginate from "../utils/paginate.js";
+import User from "../models/User.js";
 // api/v1/ads
-exports.getAds = asyncHandler(async (req, res, next) => {
+export const getAds = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
   const sort = req.query.sort;
@@ -28,7 +28,7 @@ exports.getAds = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAd = asyncHandler(async (req, res, next) => {
+export const getAd = asyncHandler(async (req, res, next) => {
   const ad = await Ad.findById(req.params.id).populate({
     path: "createUser",
     select: "firstName profile",
@@ -46,7 +46,7 @@ exports.getAd = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createAd = asyncHandler(async (req, res, next) => {
+export const createAd = asyncHandler(async (req, res, next) => {
   req.body.createUser = req.userId;
   const ad = await Ad.create(req.body);
 
@@ -56,7 +56,7 @@ exports.createAd = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.deleteAd = asyncHandler(async (req, res, next) => {
+export const deleteAd = asyncHandler(async (req, res, next) => {
   const ad = await Ad.findById(req.params.id);
 
   if (!ad) {
@@ -77,7 +77,7 @@ exports.deleteAd = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.updateAd = asyncHandler(async (req, res, next) => {
+export const updateAd = asyncHandler(async (req, res, next) => {
   const ad = await Ad.findById(req.params.id);
 
   if (!ad) {
@@ -103,7 +103,7 @@ exports.updateAd = asyncHandler(async (req, res, next) => {
 });
 
 // PUT: api/v1/ads/:id/photo
-exports.uploadAdPhoto = asyncHandler(async (req, res, next) => {
+export const uploadAdPhoto = asyncHandler(async (req, res, next) => {
   const ad = await Ad.findById(req.params.id);
 
   if (!ad) {
@@ -138,7 +138,7 @@ exports.uploadAdPhoto = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.uploadAdProfile = asyncHandler(async (req, res, next) => {
+export const uploadAdProfile = asyncHandler(async (req, res, next) => {
   const ad = await Ad.findById(req.params.id);
 
   if (!ad) {

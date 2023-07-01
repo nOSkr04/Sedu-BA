@@ -1,9 +1,9 @@
-const Category = require("../models/Category");
-const MyError = require("../utils/myError");
-const asyncHandler = require("express-async-handler");
-const paginate = require("../utils/paginate");
+import Category from "../models/Category.js";
+import MyError from "../utils/myError.js";
+import asyncHandler from "express-async-handler";
+import paginate from "../utils/paginate.js";
 
-exports.getCategories = asyncHandler(async (req, res, next) => {
+export const getCategories = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const sort = req.query.sort;
@@ -24,7 +24,7 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getCategory = asyncHandler(async (req, res, next) => {
+export const getCategory = asyncHandler(async (req, res, next) => {
   const t = await req.db.teacher.findByPk(1);
   console.log(t);
   const c = await t.getCourses();
@@ -43,7 +43,7 @@ exports.getCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createCategory = asyncHandler(async (req, res, next) => {
+export const createCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.create(req.body);
 
   res.status(200).json({
@@ -52,7 +52,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.updateCategory = asyncHandler(async (req, res, next) => {
+export const updateCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -68,7 +68,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.deleteCategory = asyncHandler(async (req, res, next) => {
+export const deleteCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
 
   if (!category) {

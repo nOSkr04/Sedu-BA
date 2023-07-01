@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -52,7 +52,7 @@ UserSchema.pre("save", async function (next) {
   console.timeEnd("salt");
 
   console.time("hash");
-  this.password = await bcrypt.hash(this.password, salt);
+  this.password = bcrypt.hash(this.password, salt);
   console.timeEnd("hash");
 });
 
@@ -69,7 +69,7 @@ UserSchema.methods.getJsonWebToken = function () {
 };
 
 UserSchema.methods.checkPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return bcrypt.compare(enteredPassword, this.password);
 };
 
 UserSchema.methods.generatePasswordChangeToken = function () {
@@ -85,4 +85,4 @@ UserSchema.methods.generatePasswordChangeToken = function () {
   return resetToken;
 };
 
-module.exports = mongoose.model("User", UserSchema);
+export default mongoose.model("User", UserSchema);

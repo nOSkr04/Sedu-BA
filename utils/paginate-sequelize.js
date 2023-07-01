@@ -1,4 +1,4 @@
-module.exports = async function (page, limit, model) {
+export default async function (page, limit, model) {
   const total = await model.count();
   const pageCount = Math.ceil(total / limit);
   const start = (page - 1) * limit + 1;
@@ -11,4 +11,4 @@ module.exports = async function (page, limit, model) {
   if (page > 1) pagination.prevPage = page - 1;
 
   return pagination;
-};
+}

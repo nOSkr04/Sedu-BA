@@ -1,9 +1,8 @@
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("./asyncHandle");
-const MyError = require("../utils/myError");
-const User = require("../models/User");
+import { verify } from "jsonwebtoken";
+import asyncHandler from "./asyncHandle.js";
+import MyError from "../utils/myError.js";
 
-exports.protect = asyncHandler(async (req, res, next) => {
+export const protect = asyncHandler(async (req, res, next) => {
   // console.log(req.headers);
   let token = null;
 
@@ -20,7 +19,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const tokenObj = jwt.verify(token, process.env.JWT_SECRET);
+  const tokenObj = verify(token, process.env.JWT_SECRET);
 
   req.userId = tokenObj.id;
   req.userRole = tokenObj.role;
@@ -28,7 +27,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
-exports.authorize = (...roles) => {
+export function authorize(...roles) {
   return (req, res, next) => {
     if (!roles.includes(req.userRole)) {
       throw new MyError(
@@ -39,4 +38,4 @@ exports.authorize = (...roles) => {
 
     next();
   };
-};
+}

@@ -1,16 +1,16 @@
-const express = require("express");
-const { protect, authorize } = require("../middleware/protect");
+import { Router } from "express";
+import { protect, authorize } from "../middleware/protect.js";
 
-const {
+import {
   getArticles,
   getArticle,
   createArticle,
   deleteArticle,
   updateArticle,
   uploadArticlePhoto,
-} = require("../controller/articles");
+} from "../controller/articles.js";
 
-const router = express.Router();
+const router = Router();
 
 //"/api/v1/articles"
 router
@@ -28,4 +28,4 @@ router
   .route("/:id/upload-photo")
   .put(protect, authorize("admin", "operator"), uploadArticlePhoto);
 
-module.exports = router;
+export default router;
