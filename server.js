@@ -18,6 +18,9 @@ import categoriesRoutes from "./routes/categories.js";
 import articlesRoutes from "./routes/articles.js";
 import usersRoutes from "./routes/users.js";
 import adsRoutes from "./routes/ads.js";
+import postsRoutes from "./routes/posts.js";
+import commentsRoutes from "./routes/comments.js";
+import likesRoutes from "./routes/likes.js";
 import errorHandler from "./middleware/error.js";
 import connectDB from "./config/db.js";
 import walletsRoutes from "./routes/wallets.js";
@@ -102,6 +105,9 @@ app.use("/api/v1/articles", articlesRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/ads", adsRoutes);
 app.use("/api/v1/wallets", walletsRoutes);
+app.use("/api/v1/posts", postsRoutes);
+app.use("/api/v1/comments", commentsRoutes);
+app.use("/api/v1/likes", likesRoutes);
 // Алдаа үүсэхэд барьж авч алдааны мэдээллийг клиент тал руу автоматаар мэдээлнэ
 app.use(errorHandler);
 
@@ -113,6 +119,7 @@ const server = app.listen(
 
 // Баригдалгүй цацагдсан бүх алдаануудыг энд барьж авна
 process.on("unhandledRejection", (err, promise) => {
+  console.log(err);
   console.log(`Алдаа гарлаа : ${err.message}`.underline.red.bold);
   server.close(() => {
     process.exit(1);
