@@ -45,6 +45,29 @@ export const getPostLikes = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: likes, pagination });
 });
 
+export const getUsersPostLikes = asyncHandler(async (req, res, next) => {
+  // req.query.createUser = req.params.id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10000;
+
+  [("select", "sort", "page", "limit")].forEach((el) => delete req.query[el]);
+
+  // Pagination
+  const pagination = await paginate(
+    page,
+    limit,
+    Like.find({ createUser: req.params.id, post: { $ne: null } })
+  );
+
+  // const likes = await Like.find(req.query, select).sort(sort).skip(pagination.start - 1).limit(limit).populate("post share").populate({path: "post", populate: {path: "createUser", select: "lastName firstName profile"}}).populate({path: "share", populate: {path: "createUser", select: "lastName firstName profile"}})
+  const likes = await Like.find({
+    createUser: req.params.id,
+    post: { $ne: null },
+  }).select("post");
+
+  res.status(200).json({ success: true, data: likes, pagination });
+});
+
 export const getUserLikes = asyncHandler(async (req, res, next) => {
   req.query.createUser = req.params.id;
   const page = parseInt(req.query.page) || 1;
@@ -112,9 +135,7 @@ export const createLike = asyncHandler(async (req, res, next) => {
   }).exec();
   if (likes == null) {
     const post = await Post.findById(req.params.id);
-    console.log(post, "posts");
     const user = await User.findById(req.userId);
-    console.log();
 
     if (post.createUser == req.userId) {
       post.like += 1;
@@ -179,13 +200,7 @@ export const deleteLike = asyncHandler(async (req, res, next) => {
   }
   if (like !== null) {
     const post = await Post.findById(req.params.id);
-    const user = await User.findById(post.createUser);
-    if (notif != null) {
-      if (notif.isRead == false) {
-        user.save();
-        notif.remove();
-      }
-    }
+
     post.like -= 1;
     post.save();
     like.remove();

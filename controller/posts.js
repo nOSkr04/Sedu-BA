@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import path from "path";
-import sharp from "sharp";
 import Post from "../models/Post.js";
 import Like from "../models/Like.js";
 import User from "../models/User.js";
@@ -18,16 +17,25 @@ export const getPosts = asyncHandler(async (req, res, next) => {
   ["select", "sort", "page", "limit"].forEach((el) => delete req.query[el]);
 
   const pagination = await paginate(page, limit, Post.find(req.query));
-
   const posts = await Post.find(req.query, select)
     .sort(sort)
     .skip(pagination.start - 1)
     .limit(limit);
 
+  const userLikes = await Like.find({
+    user: req.userId,
+  });
+  const userMap = userLikes.map((res) => `${res.post}`);
+
+  const postWithIsLiked = posts.map((post) => ({
+    ...post.toObject(),
+    isLiked: userMap.includes(post._id.toString()),
+  }));
+
   res.status(200).json({
     success: true,
     count: posts.length,
-    data: posts,
+    data: postWithIsLiked,
     pagination,
   });
 });
@@ -42,6 +50,7 @@ export const getPostsNoShare = asyncHandler(async (req, res, next) => {
 
   const pagination = await paginate(page, limit, Post.find(req.query));
   req.query.isShare = false;
+  const like = await Like.find(req.body);
 
   const posts = await Post.find(req.query, select)
     .sort(sort)
@@ -68,18 +77,15 @@ export const getPost = asyncHandler(async (req, res, next) => {
   if (!post) {
     throw new MyError(req.params.id + " ID-тэй post байхгүй байна.", 404);
   }
+  const userLikes = await Like.find({
+    user: req.userId,
+  });
+  const userMap = userLikes.map((res) => `${res.post}`);
 
-  const like = await Like.find({
-    createUser: req.userId,
-    post: req.params.id,
-  }).select("post");
+  const postWithIsLiked = userMap.includes(req.params.id);
   post.count += 1;
+  post.isLiked = postWithIsLiked;
   post.save();
-  if (like != null) {
-    post.isLiked = true;
-  } else {
-    post.isLiked = false;
-  }
 
   res.status(200).json({
     success: true,
@@ -180,21 +186,22 @@ export const uploadPostPhoto = asyncHandler(async (req, res, next) => {
     throw new MyError("Та зураг upload хийнэ үү.", 400);
   }
 
-  if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
-    throw new MyError("Таны зурагны хэмжээ хэтэрсэн байна.", 400);
-  }
-
   file.name = `post_${req.params.id}${path.parse(file.name).ext}`;
 
-  const picture = await sharp(file.data)
-    .resize({ width: parseInt(process.env.FILE_SIZE) })
-    .toFile(`${process.env.FILE_UPLOAD_PATH}/${file.name}`);
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, (err) => {
+    if (err) {
+      throw new MyError(
+        "Файлыг хуулах явцад алдаа гарлаа. Алдаа : " + err.message,
+        400
+      );
+    }
 
-  post.photo = file.name;
-  post.save();
+    post.photo = file.name;
+    post.save();
 
-  res.status(200).json({
-    success: true,
-    data: post,
+    res.status(200).json({
+      success: true,
+      data: post,
+    });
   });
 });

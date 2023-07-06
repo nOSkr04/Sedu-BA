@@ -9,6 +9,7 @@ import {
   createLike,
   updateLike,
   deleteLike,
+  getUsersPostLikes,
 } from "../controller/likes.js";
 
 router.route("/").get(getLikes);
@@ -21,5 +22,6 @@ router
 
 router.route("/:id").post(protect, createLike);
 router.route("/:id/post").get(protect, getPostLikes);
+router.route("/:id/posts").get(protect, getUsersPostLikes);
 
 export default router;

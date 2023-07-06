@@ -26,10 +26,7 @@ export const getCategories = asyncHandler(async (req, res, next) => {
 
 export const getCategory = asyncHandler(async (req, res, next) => {
   const t = await req.db.teacher.findByPk(1);
-  console.log(t);
   const c = await t.getCourses();
-
-  console.log(c);
 
   const category = await Category.findById(req.params.id).populate("articles");
 

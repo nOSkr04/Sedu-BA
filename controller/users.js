@@ -181,7 +181,6 @@ export const invoiceTime = asyncHandler(async (req, res, next) => {
         },
       })
         .then(async (response) => {
-          console.log(response.data.invoice_id);
           req.body.urls = response.data.urls;
           req.body.qrImage = response.data.qr_image;
           req.body.invoiceId = response.data.invoice_id;
