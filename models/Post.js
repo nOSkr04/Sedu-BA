@@ -37,9 +37,5 @@ const PostSchema = new mongoose.Schema({
     type: String,
   },
 });
-PostSchema.pre("remove", async function (next) {
-  await this.model("Activity").deleteMany({ postId: this._id });
-  next();
-});
 
 export default mongoose.model("Post", PostSchema);

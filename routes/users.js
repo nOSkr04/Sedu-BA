@@ -14,6 +14,7 @@ import {
   invoiceTime,
   chargeTime,
   invoiceCheck,
+  postTime,
 } from "../controller/users.js";
 
 import { getUserArticles } from "../controller/articles.js";
@@ -37,6 +38,7 @@ router
 router.route("/me").get(protect, authMeUser);
 router.route("/invoice/:id").post(invoiceTime);
 router.route("/:id").get(getUser).put(updateUser).delete(protect, deleteUser);
+router.route("/apple").post(postTime);
 
 router.route("/:id/articles").get(getUserArticles);
 

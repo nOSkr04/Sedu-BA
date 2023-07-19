@@ -149,6 +149,7 @@ export const createLike = asyncHandler(async (req, res, next) => {
     } else {
       post.like += 1;
       post.save();
+      const user = await User.findById(post.createUser);
       req.body.createUser = req.userId;
       req.body.post = req.params.id;
       req.body.name = user.name;
@@ -161,7 +162,7 @@ export const createLike = asyncHandler(async (req, res, next) => {
       req.body.type = "Like";
       req.body.crud = "Create";
       req.body.postId = req.params.id;
-      const user = await User.findById(post.createUser);
+
       user.save();
 
       like.name = user.name;

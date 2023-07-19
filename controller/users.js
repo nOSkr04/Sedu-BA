@@ -279,3 +279,14 @@ export const chargeTime = asyncHandler(async (req, res, next) => {
     data: profile,
   });
 });
+export const postTime = asyncHandler(async (req, res, next) => {
+  const profile = await User.findById(req.body.id);
+  console.log(req.body);
+  profile.deadline = new Date(req.body.time);
+  profile.save();
+
+  res.status(200).json({
+    success: true,
+    data: profile,
+  });
+});
