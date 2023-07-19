@@ -26,7 +26,6 @@ export const getPosts = asyncHandler(async (req, res, next) => {
     createUser: req.query.userId,
   });
   const userMap = userLikes.map((res) => `${res.post}`);
-  console.log(userMap);
 
   const postWithIsLiked = posts.map((post) => ({
     ...post.toObject(),
