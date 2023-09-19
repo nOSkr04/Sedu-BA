@@ -16,6 +16,8 @@ import hpp from "hpp";
 // Router оруулж ирэх
 import categoriesRoutes from "./routes/categories.js";
 import articlesRoutes from "./routes/articles.js";
+import lessonsRoutes from "./routes/lessons.js";
+import storysRoutes from "./routes/storys.js";
 import usersRoutes from "./routes/users.js";
 import adsRoutes from "./routes/ads.js";
 import postsRoutes from "./routes/posts.js";
@@ -102,6 +104,8 @@ app.use(morgan("combined", { stream: accessLogStream }));
 // REST API RESOURSE
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/articles", articlesRoutes);
+app.use("/api/v1/storys", storysRoutes);
+app.use("/api/v1/lessons", lessonsRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/ads", adsRoutes);
 app.use("/api/v1/wallets", walletsRoutes);
