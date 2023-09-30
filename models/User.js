@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
   },
   privacy: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
