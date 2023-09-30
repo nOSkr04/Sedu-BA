@@ -55,7 +55,7 @@ export const login = asyncHandler(async (req, res, next) => {
   const token = user.getJsonWebToken();
 
   const cookieOption = {
-    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000000),
     httpOnly: true,
   };
 
@@ -68,7 +68,7 @@ export const login = asyncHandler(async (req, res, next) => {
 
 export const logout = asyncHandler(async (req, res, next) => {
   const cookieOption = {
-    expires: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000000),
     httpOnly: true,
   };
 
