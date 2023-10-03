@@ -259,7 +259,7 @@ export const chargeTime = asyncHandler(async (req, res, next) => {
     } else if (req.params.numId === "15000") {
       profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 60;
     } else if (req.params.numId === "20000") {
-      profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 90;
+      profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
     }
   } else {
     if (req.params.numId === "150") {
@@ -267,8 +267,7 @@ export const chargeTime = asyncHandler(async (req, res, next) => {
     } else if (req.params.numId === "15000") {
       profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 60;
     } else if (req.params.numId === "20000") {
-      console.log("second");
-      profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 90;
+      profile.deadline = profile.deadline.getTime() + 60 * 60 * 1000 * 24 * 30;
     }
   }
 
@@ -281,8 +280,7 @@ export const chargeTime = asyncHandler(async (req, res, next) => {
 });
 export const postTime = asyncHandler(async (req, res, next) => {
   const profile = await User.findById(req.body.id);
-  console.log(req.body);
-  profile.deadline = new Date(req.body.time);
+  profile.deadline = Date.now() + 60 * 60 * 1000 * 24 * 30;
   profile.save();
 
   res.status(200).json({
