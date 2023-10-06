@@ -4,6 +4,7 @@ import MyError from "../utils/myError.js";
 import asyncHandler from "express-async-handler";
 import paginate from "../utils/paginate.js";
 import axios from "axios";
+import mongoose from "mongoose";
 
 export const authMeUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
@@ -136,6 +137,17 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     data: user,
   });
 });
+
+// export const updatePrivacy = asyncHandler(async (req, res) => {
+//   const filter = { privacy: true };
+//   const updateDoc = {
+//     $set: {
+//       privacy: false,
+//     },
+//   };
+//   const result = await User.updateMany(filter, updateDoc);
+//   console.log("first", result);
+// });
 
 export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);

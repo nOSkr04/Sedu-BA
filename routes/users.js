@@ -15,6 +15,7 @@ import {
   chargeTime,
   invoiceCheck,
   postTime,
+  updatePrivacy,
 } from "../controller/users.js";
 
 import { getUserArticles } from "../controller/articles.js";
@@ -25,6 +26,7 @@ const router = Router();
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
+router.route("/updatePrivacy").post(updatePrivacy);
 
 router.route("/callbacks/:id/:numId").get(chargeTime);
 router.route("/check/challbacks/:id/:numId").get(invoiceCheck);
