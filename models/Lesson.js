@@ -11,6 +11,9 @@ const LessonSchema = new mongoose.Schema(
     duration: {
       type: String,
     },
+    blurHash: {
+      type: String,
+    },
     seen: {
       type: Number,
     },

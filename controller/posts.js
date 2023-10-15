@@ -73,7 +73,6 @@ export const getUserPosts = asyncHandler(async (req, res, next) => {
 
 export const getPost = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
-
   if (!post) {
     throw new MyError(req.params.id + " ID-тэй post байхгүй байна.", 404);
   }
@@ -111,6 +110,7 @@ export const createPost = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.userId);
   articl.name = user.name;
 
+  console.log(articl);
   articl.save();
 
   user.postNumber += 1;

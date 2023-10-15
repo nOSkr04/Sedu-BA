@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema({
   photo: {
     type: String,
   },
-
+  blurHash: String,
   like: {
     type: Number,
     default: 0,
