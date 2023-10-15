@@ -26,6 +26,7 @@ import likesRoutes from "./routes/likes.js";
 import errorHandler from "./middleware/error.js";
 import connectDB from "./config/db.js";
 import walletsRoutes from "./routes/wallets.js";
+import mediasRoutes from "./routes/media.js";
 // Аппын тохиргоог process.env рүү ачаалах
 dotenv.config({ path: "./config/config.env" });
 
@@ -43,6 +44,8 @@ var whitelist = [
   "https://www.sedu.mn",
   "https://sedu.mn",
   "http://192.168.1.8:3000",
+  "https://seduadmin.vercel.app",
+  "https://www.seduadmin.vercel.app",
 ];
 
 // Өөр домэйн дээр байрлах клиент вэб аппуудаас шаардах шаардлагуудыг энд тодорхойлно
@@ -112,6 +115,7 @@ app.use("/api/v1/wallets", walletsRoutes);
 app.use("/api/v1/posts", postsRoutes);
 app.use("/api/v1/comments", commentsRoutes);
 app.use("/api/v1/likes", likesRoutes);
+app.use("/media", mediasRoutes);
 // Алдаа үүсэхэд барьж авч алдааны мэдээллийг клиент тал руу автоматаар мэдээлнэ
 app.use(errorHandler);
 
