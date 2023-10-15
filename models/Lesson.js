@@ -16,6 +16,7 @@ const LessonSchema = new mongoose.Schema(
     },
     seen: {
       type: Number,
+      default: 0,
     },
     url: {
       type: String,
