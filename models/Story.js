@@ -18,6 +18,9 @@ const StorySchema = new mongoose.Schema(
     url: {
       type: String,
     },
+    blurHash: {
+      type: String,
+    },
 
     createUser: {
       type: mongoose.Schema.ObjectId,
