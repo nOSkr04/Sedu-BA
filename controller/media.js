@@ -8,6 +8,8 @@ import { getVideoDuration } from "../utils/video.js";
 import { setBlurHash } from "../utils/gm.js";
 import Video from "../models/Video.js";
 import fs from "fs";
+import ffmpeg from "fluent-ffmpeg";
+
 export const uploadPhoto = asyncHandler(async (req, res, next) => {
   const file = req.files.file;
 
@@ -65,20 +67,38 @@ export const uploadVideo = asyncHandler(async (req, res) => {
 
   await file.mv(filepath);
 
-  const duration = await getVideoDuration(filepath);
-  const params = {
-    Bucket: config.bucket,
-    Key: filename,
-    Body: fs.createReadStream(filepath),
-  };
-  const results = s3.upload(params, {}).promise();
+  const screenshotFilename = `${imageId}.jpg`;
+  const screenshotPath = path.join(outputPath, screenshotFilename);
+  ffmpeg(filepath)
+    .screenshots({
+      count: 1,
+      folder: outputPath,
+      filename: screenshotFilename,
+    })
+    .on("end", async () => {
+      const duration = await getVideoDuration(filepath);
+      const videoUploadParams = {
+        Bucket: config.bucket,
+        Key: filename,
+        Body: fs.createReadStream(filepath),
+      };
+      const screenshotUploadParams = {
+        Bucket: config.bucket,
+        Key: screenshotFilename,
+        Body: fs.createReadStream(screenshotPath),
+      };
 
-  const video = await new Video({
-    url: (await results).Location,
-    duration: duration,
-  }).save();
-  res.status(200).json({
-    success: true,
-    data: video,
-  });
+      const [videoUploadResult, screenshotUploadResult] = await Promise.all([
+        s3.upload(videoUploadParams, {}).promise(),
+        s3.upload(screenshotUploadParams, {}).promise(),
+      ]);
+
+      const video = await new Video({
+        url: videoUploadResult.Location,
+        image: screenshotUploadResult.Location,
+        duration: duration,
+      }).save();
+
+      res.status(200).json(video);
+    });
 });
