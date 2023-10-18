@@ -69,6 +69,9 @@ export const getArticle = asyncHandler(async (req, res, next) => {
     throw new MyError(req.params.id + " ID-тэй ном байхгүй байна.", 404);
   }
 
+  article.seen += 1;
+  article.save();
+
   res.status(200).json({
     success: true,
     data: article,

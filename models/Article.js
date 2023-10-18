@@ -24,7 +24,10 @@ const ArticleSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "User",
     },
-
+    seen: {
+      type: Number,
+      default: 0,
+    },
     updateUser: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
