@@ -138,16 +138,16 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// export const updatePrivacy = asyncHandler(async (req, res) => {
-//   const filter = { privacy: true };
-//   const updateDoc = {
-//     $set: {
-//       privacy: false,
-//     },
-//   };
-//   const result = await User.updateMany(filter, updateDoc);
-//   console.log("first", result);
-// });
+export const updatePrivacy = asyncHandler(async (req, res) => {
+  const filter = { privacy: true };
+  const updateDoc = {
+    $set: {
+      privacy: false,
+    },
+  };
+  const result = await User.updateMany(filter, updateDoc);
+  console.log("first", result);
+});
 
 export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
