@@ -138,16 +138,16 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const updatePrivacy = asyncHandler(async (req, res) => {
-  const filter = { privacy: true };
-  const updateDoc = {
-    $set: {
-      privacy: false,
-    },
-  };
-  const result = await User.updateMany(filter, updateDoc);
-  console.log("first", result);
-});
+// export const updatePrivacy = asyncHandler(async (req, res) => {
+//   const filter = { privacy: true };
+//   const updateDoc = {
+//     $set: {
+//       privacy: false,
+//     },
+//   };
+//   const result = await User.updateMany(filter, updateDoc);
+//   console.log("first", result);
+// });
 
 export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
@@ -188,7 +188,8 @@ export const invoiceTime = asyncHandler(async (req, res, next) => {
           invoice_receiver_code: `${profile.name}`,
           invoice_description: `Sedu charge ${profile.name}`,
 
-          callback_url: `https://seduback.com/api/v1/users/callbacks/${req.params.id}/20000`,
+          amount: req.body.amount,
+          callback_url: `https://seduback.com/api/v1/users/callbacks/${req.params.id}/${req.body.amount}`,
         },
       })
         .then(async (response) => {

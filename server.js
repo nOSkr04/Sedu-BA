@@ -43,7 +43,7 @@ var whitelist = [
   "http://localhost:3000",
   "https://www.sedu.mn",
   "https://sedu.mn",
-  "http://192.168.1.8:3000",
+  "http://192.168.1.8:8001",
   "https://seduadmin.vercel.app",
   "https://www.seduadmin.vercel.app",
 ];
